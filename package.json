@@ -1,0 +1,13 @@
+{
+  "name": "tiny-cms",
+  "version": "0.0.1",
+  "description": "I'm sure I can do a CMS in one evening, right?",
+  "main": "server.js",
+  "author": {
+    "name": "Marcin Floryan",
+    "url": "http://marcin.floryan.pl"
+  },
+  "dependencies": {
+    "connect": "~2.7.10"
+  }
+}
