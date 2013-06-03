@@ -18,11 +18,90 @@
     <div class="row-fluid">
         <div class="span2"></div>
         <div class="span10">
-            <!-- ko template: { name: 'editBrand' } -->
+            <!-- ko template: { name: 'showBrand' } -->
             <!-- /ko -->
         </div>
     </div>
 </div>
+
+<script type="text/html" id="showBrand">
+    <h1><span data-bind="text: brandName"></span> (<span data-bind="text: brandCode"></span>)</h1>
+
+    <dl>
+        <dt>Strapline</dt>
+        <dd data-bind="text: strapLine"></dd>
+    </dl>
+
+    <h3>Important text</h3>
+    <ul>
+        <!-- ko foreach: importantText -->
+        <li data-bind="text: text"></li>
+        <!-- /ko -->
+    </ul>
+
+    <h3>Benefits</h3>
+    <ul>
+        <!-- ko foreach: Benefits -->
+        <li data-bind="text: text"></li>
+        <!-- /ko -->
+    </ul>
+
+    <h3>Presence</h3>
+
+    <label class="checkbox">
+        <input type="checkbox" disabled="disabled" data-bind="checked: onlinePurchaseSupported" /> Online purchase supported
+    </label>
+
+    <label class="checkbox">
+        <input type="checkbox" disabled="disabled" data-bind="checked: offlinePresence.OfflinePurchaseSupported" /> Offline purchase supported
+    </label>
+
+    <h4>Opening times</h4>
+
+    <dl class="dl-horizontal">
+        <dt>Monday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.Monday"></dd>
+
+        <dt>Tuesday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.Tuesday"></dd>
+
+        <dt>Wednesday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.Wednesday"></dd>
+
+        <dt>Thursday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.Thursday"></dd>
+
+        <dt>Friday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.Friday"></dd>
+
+        <dt>Saturday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.Saturday"></dd>
+
+        <dt>Sunday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.Sunday"></dd>
+
+        <dt>Bank Holiday</dt>
+        <dd data-bind="text: offlinePresence.OpeningTimes.BankHoliday"></dd>
+    </dl>
+
+    <dl>
+        <dt>Phone Number</dt>
+        <dd data-bind="text: offlinePresence.PhoneNumber"></dd>
+
+        <dt>Support Copy</dt>
+        <dd data-bind="html: offlinePresence.SupportCopy"></dd>
+    </dl>
+
+    <h3>Offer</h3>
+    <dl>
+        <dt>Text</dt>
+        <dd data-bind="text: offer.text"></dd>
+
+        <dt>Terms</dt>
+        <dd data-bind="html: offer.terms"></dd>
+    </dl>
+
+</script>
 
 <script type="text/html" id="editBrand">
     <form>
@@ -47,9 +126,27 @@
             <!-- /ko -->
             <br />
             <button class="btn btn-small" type="button" data-bind="click: addImportantText"><i class="icon-plus"></i> Add</button>
-
         </fieldset>
+
         <br />
+
+        <fieldset>
+            <legend>Benefits</legend>
+
+            <ul>
+                <!-- ko foreach: Benefits -->
+                <li>
+                    <input type="text" data-bind="value: text" class="span8"/>
+                    <button class="btn btn-small" type="button" data-bind="click: $root.removeBenefit.bind($root)"><i class="icon-remove-circle"></i></button>
+                </li>
+                <!-- /ko -->
+            </ul>
+
+            <button class="btn btn-small" type="button" data-bind="click: addBenefit"><i class="icon-plus"></i> Add</button>
+        </fieldset>
+
+        <br />
+
         <fieldset>
             <legend>Presence</legend>
 
@@ -131,20 +228,6 @@
 
         </fieldset>
 
-        <fieldset>
-            <legend>Benefits</legend>
-
-            <ul>
-                <!-- ko foreach: Benefits -->
-                <li>
-                    <input type="text" data-bind="value: text" class="span8"/>
-                    <button class="btn btn-small" type="button" data-bind="click: $root.removeBenefit.bind($root)"><i class="icon-remove-circle"></i></button>
-                </li>
-                <!-- /ko -->
-            </ul>
-
-            <button class="btn btn-small" type="button" data-bind="click: addBenefit"><i class="icon-plus"></i> Add</button>
-        </fieldset>
         <br />
         <fieldset>
             <legend>Offer</legend>
