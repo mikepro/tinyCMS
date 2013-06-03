@@ -33,7 +33,9 @@
                     <input type="text" class="input-xxlarge" data-bind="value: strapLine"/>
 
                     <label>Important Text</label>
-                    <textarea rows="3" class="input-xxlarge"></textarea>
+                    <!-- ko foreach: importantText -->
+                    <textarea rows="3" class="input-xxlarge" data-bind="value: $data"></textarea>
+                    <!-- /ko -->
 
                 </fieldset>
 
