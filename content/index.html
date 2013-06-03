@@ -20,7 +20,7 @@
     <div class="row-fluid">
         <div class="span2"></div>
         <div class="span10">
-            <!-- ko template: { name: 'showBrand' } -->
+            <!-- ko template: { name: displayTemplate, data: brand } -->
             <!-- /ko -->
         </div>
     </div>
@@ -103,6 +103,10 @@
         <dd data-bind="html: offer.terms"></dd>
     </dl>
 
+    <div class="form-actions">
+        <button class="btn btn-primary" type="button" data-bind="click: $root.editPublished.bind($root)"><i class="icon-edit"></i> Edit</button>
+    </div>
+
 </script>
 
 <script type="text/html" id="editBrand">
@@ -122,7 +126,7 @@
             <label>Important Text</label>
             <!-- ko foreach: importantText -->
             <textarea rows="3" class="span8" data-bind="value: text"></textarea>
-            <button type="button" class="btn btn-small" title="remove paragraph" data-bind="click: $root.removeImportantText.bind($root)">
+            <button type="button" class="btn btn-small" title="remove paragraph" data-bind="click: $parent.removeImportantText.bind($parent)">
                 <i class="icon-remove-circle"></i>
             </button>
             <!-- /ko -->
@@ -139,7 +143,7 @@
                 <!-- ko foreach: Benefits -->
                 <li>
                     <input type="text" data-bind="value: text" class="span8"/>
-                    <button class="btn btn-small" type="button" data-bind="click: $root.removeBenefit.bind($root)"><i class="icon-remove-circle"></i></button>
+                    <button class="btn btn-small" type="button" data-bind="click: $parent.removeBenefit.bind($parent)"><i class="icon-remove-circle"></i></button>
                 </li>
                 <!-- /ko -->
             </ul>
@@ -242,6 +246,12 @@
             <textarea rows="3" class="span8" data-bind="text: offer.terms"></textarea>
 
         </fieldset>
+
+        <div class="form-actions">
+            <button class="btn btn-primary" type="button"><i class="icon-edit"></i> Save</button>
+            <button class="btn" type="button"><i class="icon-edit"></i> Cancel</button>
+        </div>
+
     </form>
 </script>
 

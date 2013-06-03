@@ -29,35 +29,65 @@ var testData = {
 
 var TextItem = function(value) {
   this.text = ko.observable(value);
-}
+};
 
-var viewModel = ko.mapping.fromJS(testData, {
-  'Benefits': {
-    create: function(options) {
-      return new TextItem(options.data);
+var tinyCmsViewModel = {
+
+  displayTemplate: function(model) {
+    if (model.status() == 'published') {
+      return 'showBrand';
+    } else {
+      return 'editBrand';
     }
   },
-  'importantText': {
-    create: function(options) {
-      return new TextItem(options.data);
-    }
+
+  published: {},
+  brand: {},
+
+  createBrandViewModel: function(data) {
+    var model = ko.mapping.fromJS(data, {
+      'Benefits': {
+        create: function(options) {
+          return new TextItem(options.data);
+        }
+      },
+      'importantText': {
+        create: function(options) {
+          return new TextItem(options.data);
+        }
+      }
+    });
+
+    model.status = ko.observable('published');
+
+    model.removeBenefit = function(benefit) {
+      this.Benefits.remove(benefit);
+    };
+
+    model.removeImportantText = function(importantText) {
+      this.importantText.remove(importantText);
+    };
+
+    model.addBenefit = function() {
+      this.Benefits.push(new TextItem());
+    };
+
+    model.addImportantText = function() {
+      this.importantText.push(new TextItem());
+    };
+    return model;
+  },
+
+  populateBrand : function(data) {
+    this.published = data;
+    this.brand = this.createBrandViewModel(data);
   }
-});
-
-viewModel.removeBenefit = function(benefit) {
-  this.Benefits.remove(benefit);
 };
 
-viewModel.removeImportantText = function(importantText) {
-  this.importantText.remove(importantText);
+tinyCmsViewModel.editPublished = function() {
+  this.brand.status('edit');
 };
 
-viewModel.addBenefit = function() {
-  this.Benefits.push(new TextItem());
-};
+tinyCmsViewModel.populateBrand(testData);
 
-viewModel.addImportantText = function() {
-  this.importantText.push(new TextItem());
-};
-
-ko.applyBindings(viewModel);
+ko.applyBindings(tinyCmsViewModel);
