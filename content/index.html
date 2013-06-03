@@ -34,8 +34,13 @@
 
                     <label>Important Text</label>
                     <!-- ko foreach: importantText -->
-                    <textarea rows="3" class="input-xxlarge" data-bind="value: $data"></textarea>
+                    <textarea rows="3" class="input-xxlarge" data-bind="value: text"></textarea>
+                    <button type="button" class="btn btn-small" title="remove paragraph" data-bind="click: $root.removeImportantText.bind($root)">
+                        <i class="icon-remove-circle"></i>
+                    </button>
                     <!-- /ko -->
+                    <br />
+                    <button class="btn btn-small" type="button" data-bind="click: addImportantText"><i class="icon-plus"></i> Add</button>
 
                 </fieldset>
 
@@ -139,18 +144,16 @@
                     <ul>
                     <!-- ko foreach: Benefits -->
                         <li>
-                            <input type="text" data-bind="value: $data" class="input-xxlarge"/>
-                            <button class="btn btn-small" type="button"><i class="icon-remove-circle"></i></button>
+                            <input type="text" data-bind="value: text" class="span8"/>
+                            <button class="btn btn-small" type="button" data-bind="click: $root.removeBenefit.bind($root)"><i class="icon-remove-circle"></i></button>
                         </li>
                     <!-- /ko -->
                     </ul>
 
-                    <button class="btn btn-small" type="button"><i class="icon-plus"></i> Add</button>
+                    <button class="btn btn-small" type="button" data-bind="click: addBenefit"><i class="icon-plus"></i> Add</button>
                 </fieldset>
 
-
             </form>
-
 
         </div>
     </div>

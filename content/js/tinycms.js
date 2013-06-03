@@ -19,14 +19,45 @@ var testData = {
       "Name": "OpeningTimes"
     },
     "PhoneNumber": "0844 412 2106",
-    "SupportCopy": "To buy on the phone please make sure you have your reference number and payment details handy and don't forget to mention that you received this quote from <strong>compare</strong>the<strong>market</strong>.com.",
+    "SupportCopy": "To buy on the phone please make sure you have your reference number and payment details handy and don't forget to mention that you received this quote from <strong>compare</strong>the<strong>market</strong>.com."
   },
   "offer": {
     "terms": "A separate policy will be set up to provide Home Emergency Assistance.  First 3 months free, &pound;6 per month thereafter payable by monthly direct debit only.",
-    "text": "Home Emergency Assistance FREE for the first 3 months",
+    "text": "Home Emergency Assistance FREE for the first 3 months"
   }
 }
 
-var viewModel = ko.mapping.fromJS(testData);
+var TextItem = function(value) {
+  this.text = ko.observable(value);
+}
+
+var viewModel = ko.mapping.fromJS(testData, {
+  'Benefits': {
+    create: function(options) {
+      return new TextItem(options.data);
+    }
+  },
+  'importantText': {
+    create: function(options) {
+      return new TextItem(options.data);
+    }
+  }
+});
+
+viewModel.removeBenefit = function(benefit) {
+  this.Benefits.remove(benefit);
+};
+
+viewModel.removeImportantText = function(importantText) {
+  this.importantText.remove(importantText);
+};
+
+viewModel.addBenefit = function() {
+  this.Benefits.push(new TextItem());
+};
+
+viewModel.addImportantText = function() {
+  this.importantText.push(new TextItem());
+};
 
 ko.applyBindings(viewModel);
