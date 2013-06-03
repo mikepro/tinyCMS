@@ -18,146 +18,147 @@
     <div class="row-fluid">
         <div class="span2"></div>
         <div class="span10">
-
-            <form>
-                <fieldset>
-                    <legend>Brand</legend>
-
-                    <label>Code</label>
-                    <input type="text" class="input-small" maxlength="5" size="5" data-bind="value: brandCode"/>
-
-                    <label>Name</label>
-                    <input type="text" data-bind="value: brandName"/>
-
-                    <label>Strapline</label>
-                    <input type="text" class="input-xxlarge" data-bind="value: strapLine"/>
-
-                    <label>Important Text</label>
-                    <!-- ko foreach: importantText -->
-                    <textarea rows="3" class="span8" data-bind="value: text"></textarea>
-                    <button type="button" class="btn btn-small" title="remove paragraph" data-bind="click: $root.removeImportantText.bind($root)">
-                        <i class="icon-remove-circle"></i>
-                    </button>
-                    <!-- /ko -->
-                    <br />
-                    <button class="btn btn-small" type="button" data-bind="click: addImportantText"><i class="icon-plus"></i> Add</button>
-
-                </fieldset>
-                <br />
-                <fieldset>
-                    <legend>Presence</legend>
-
-                    <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: onlinePurchaseSupported" /> Online purchase supported
-                    </label>
-
-                    <label class="checkbox">
-                        <input type="checkbox" data-bind="checked: offlinePresence.OfflinePurchaseSupported" /> Offline purchase supported
-                    </label>
-
-                    Opening times:
-
-                    <div class="form-horizontal">
-
-                        <div class="control-group">
-                            <label class="control-label">Monday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.Monday" />
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Tuesday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.Tuesday" />
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Wednesday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.Wednesday" />
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Thursday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.Thursday"/>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Friday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.Friday"/>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Saturday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.Saturday"/>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Sunday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.Sunday"/>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Bank Holiday</label>
-                            <div class="controls">
-                                <input type="text" data-bind="value: offlinePresence.OpeningTimes.BankHoliday"/>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <label>Phone Number</label>
-                    <input type="text" data-bind="value: offlinePresence.PhoneNumber" />
-
-                    <label>Support Copy</label>
-                    <textarea rows=3 class="span8" data-bind="text: offlinePresence.SupportCopy"></textarea>
-
-                </fieldset>
-
-                <fieldset>
-                    <legend>Benefits</legend>
-
-                    <ul>
-                        <!-- ko foreach: Benefits -->
-                        <li>
-                            <input type="text" data-bind="value: text" class="span8"/>
-                            <button class="btn btn-small" type="button" data-bind="click: $root.removeBenefit.bind($root)"><i class="icon-remove-circle"></i></button>
-                        </li>
-                        <!-- /ko -->
-                    </ul>
-
-                    <button class="btn btn-small" type="button" data-bind="click: addBenefit"><i class="icon-plus"></i> Add</button>
-                </fieldset>
-                <br />
-                <fieldset>
-                    <legend>Offer</legend>
-
-                    <label>Text</label>
-
-                    <input type="text" class="input-xxlarge" data-bind="value: offer.text" />
-
-                    <label>Terms</label>
-                    <textarea rows="3" class="span8" data-bind="text: offer.terms"></textarea>
-
-                </fieldset>
-
-            </form>
-
+            <!-- ko template: { name: 'editBrand' } -->
+            <!-- /ko -->
         </div>
     </div>
-
 </div>
+
+<script type="text/html" id="editBrand">
+    <form>
+        <fieldset>
+            <legend>Brand</legend>
+
+            <label>Code</label>
+            <input type="text" class="input-small" maxlength="5" size="5" data-bind="value: brandCode"/>
+
+            <label>Name</label>
+            <input type="text" data-bind="value: brandName"/>
+
+            <label>Strapline</label>
+            <input type="text" class="input-xxlarge" data-bind="value: strapLine"/>
+
+            <label>Important Text</label>
+            <!-- ko foreach: importantText -->
+            <textarea rows="3" class="span8" data-bind="value: text"></textarea>
+            <button type="button" class="btn btn-small" title="remove paragraph" data-bind="click: $root.removeImportantText.bind($root)">
+                <i class="icon-remove-circle"></i>
+            </button>
+            <!-- /ko -->
+            <br />
+            <button class="btn btn-small" type="button" data-bind="click: addImportantText"><i class="icon-plus"></i> Add</button>
+
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Presence</legend>
+
+            <label class="checkbox">
+                <input type="checkbox" data-bind="checked: onlinePurchaseSupported" /> Online purchase supported
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" data-bind="checked: offlinePresence.OfflinePurchaseSupported" /> Offline purchase supported
+            </label>
+
+            Opening times:
+
+            <div class="form-horizontal">
+
+                <div class="control-group">
+                    <label class="control-label">Monday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.Monday" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Tuesday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.Tuesday" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Wednesday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.Wednesday" />
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Thursday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.Thursday"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Friday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.Friday"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Saturday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.Saturday"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Sunday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.Sunday"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Bank Holiday</label>
+                    <div class="controls">
+                        <input type="text" data-bind="value: offlinePresence.OpeningTimes.BankHoliday"/>
+                    </div>
+                </div>
+
+            </div>
+
+            <label>Phone Number</label>
+            <input type="text" data-bind="value: offlinePresence.PhoneNumber" />
+
+            <label>Support Copy</label>
+            <textarea rows=3 class="span8" data-bind="text: offlinePresence.SupportCopy"></textarea>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Benefits</legend>
+
+            <ul>
+                <!-- ko foreach: Benefits -->
+                <li>
+                    <input type="text" data-bind="value: text" class="span8"/>
+                    <button class="btn btn-small" type="button" data-bind="click: $root.removeBenefit.bind($root)"><i class="icon-remove-circle"></i></button>
+                </li>
+                <!-- /ko -->
+            </ul>
+
+            <button class="btn btn-small" type="button" data-bind="click: addBenefit"><i class="icon-plus"></i> Add</button>
+        </fieldset>
+        <br />
+        <fieldset>
+            <legend>Offer</legend>
+
+            <label>Text</label>
+
+            <input type="text" class="input-xxlarge" data-bind="value: offer.text" />
+
+            <label>Terms</label>
+            <textarea rows="3" class="span8" data-bind="text: offer.terms"></textarea>
+
+        </fieldset>
+    </form>
+</script>
 
 <script type='text/javascript' src='js/jquery-2.0.2.min.js'></script>
 <script src='bootstrap/js/bootstrap.min.js'></script>
