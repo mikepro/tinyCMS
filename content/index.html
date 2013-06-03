@@ -134,9 +134,14 @@
                 <fieldset>
                     <legend>Benefits</legend>
 
+                    <ul>
                     <!-- ko foreach: Benefits -->
-                        <input type="text" data-bind="value:" />
+                        <li>
+                            <input type="text" data-bind="value: $data" class="input-xxlarge"/>
+                            <button class="btn btn-small" type="button"><i class="icon-remove-circle"></i></button>
+                        </li>
                     <!-- /ko -->
+                    </ul>
 
                     <button class="btn btn-small" type="button"><i class="icon-plus"></i> Add</button>
                 </fieldset>
