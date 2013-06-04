@@ -8,6 +8,6 @@
     "url": "http://marcin.floryan.pl"
   },
   "dependencies": {
-    "connect": "~2.7.10"
+    "express": "~3.2.6"
   }
 }
