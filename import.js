@@ -1,5 +1,6 @@
 
-var fs = require('fs');
+var fs = require('fs'),
+    mongo = require('mongodb');
 
 console.log("Importing data");
 
@@ -26,7 +27,25 @@ function CleanupBrandData(brandData) {
   return brandData;
 }
 
+var db = (function() {
+  var server = new mongo.Server(
+    'localhost',
+    27017,
+    {auto_reconnect: true});
+  return new mongo.Db('tinyCMS', server, {safe: true});
+})();
+
 brands.Brands.forEach(function(brandData) {
+
   var brand = CleanupBrandData(brandData);
+  brand.status = "published";
+  brand.createdAt = new Date();
+
+  db.collection('brands').insert(brand, function(err, inserted) {
+    if (err) {
+      console.log(err);
+    }
+  });
+
   console.log(" * " + brand.brandCode);
 });
