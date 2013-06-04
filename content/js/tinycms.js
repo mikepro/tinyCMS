@@ -33,16 +33,9 @@ var TextItem = function(value) {
 
 var tinyCmsViewModel = {
 
-  displayTemplate: function(model) {
-    if (model.status() == 'published') {
-      return 'showBrand';
-    } else {
-      return 'editBrand';
-    }
-  },
-
-  published: {},
-  brand: {},
+  selectedBrand: ko.observable(),
+  editedBrand: ko.observable(),
+  displayMode: ko.observable(true),
 
   createBrandViewModel: function(data) {
     var model = ko.mapping.fromJS(data, {
@@ -57,8 +50,6 @@ var tinyCmsViewModel = {
         }
       }
     });
-
-    model.status = ko.observable('published');
 
     model.removeBenefit = function(benefit) {
       this.Benefits.remove(benefit);
@@ -79,13 +70,23 @@ var tinyCmsViewModel = {
   },
 
   populateBrand : function(data) {
-    this.published = data;
-    this.brand = this.createBrandViewModel(data);
+    this.selectedBrand(this.createBrandViewModel(data));
   }
 };
 
 tinyCmsViewModel.editPublished = function() {
-  this.brand.status('edit');
+  this.displayMode(false);
+  this.editedBrand(this.createBrandViewModel(testData));
+};
+
+tinyCmsViewModel.saveEditing = function() {
+  this.editedBrand(null);
+  this.displayMode(true);
+};
+
+tinyCmsViewModel.cancelEditing = function() {
+  this.editedBrand(null);
+  this.displayMode(true);
 };
 
 tinyCmsViewModel.populateBrand(testData);

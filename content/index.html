@@ -18,10 +18,22 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2"></div>
-        <div class="span10">
-            <!-- ko template: { name: displayTemplate, data: brand } -->
+        <div class="span2">
+            <!-- ko if: displayMode -->
+            <button class="btn btn-primary" type="button" data-bind="click: $root.editPublished.bind($root)"><i class="icon-edit"></i> Edit</button>
             <!-- /ko -->
+        </div>
+        <div class="span10">
+        <!-- ko if: displayMode -->
+        <!-- ko with: selectedBrand -->
+            <!-- ko template: { name: 'showBrand' } -->
+            <!-- /ko -->
+        <!-- /ko -->
+        <!-- /ko -->
+        <!-- ko with: editedBrand -->
+            <!-- ko template: { name: 'editBrand' } -->
+            <!-- /ko -->
+        <!-- /ko -->
         </div>
     </div>
 </div>
@@ -102,11 +114,6 @@
         <dt>Terms</dt>
         <dd data-bind="html: offer.terms"></dd>
     </dl>
-
-    <div class="form-actions">
-        <button class="btn btn-primary" type="button" data-bind="click: $root.editPublished.bind($root)"><i class="icon-edit"></i> Edit</button>
-    </div>
-
 </script>
 
 <script type="text/html" id="editBrand">
@@ -248,8 +255,8 @@
         </fieldset>
 
         <div class="form-actions">
-            <button class="btn btn-primary" type="button"><i class="icon-edit"></i> Save</button>
-            <button class="btn" type="button"><i class="icon-edit"></i> Cancel</button>
+            <button class="btn btn-primary" type="button" data-bind="click: $root.saveEditing.bind($root)"><i class="icon-edit"></i> Save</button>
+            <button class="btn" type="button" data-bind="click: $root.cancelEditing.bind($root)"><i class="icon-edit"></i> Cancel</button>
         </div>
 
     </form>
