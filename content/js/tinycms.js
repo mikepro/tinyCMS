@@ -27,6 +27,27 @@ var testData = {
   }
 }
 
+var testData2 = {
+  "brandName": "Axa",
+  "strapLine": "Home insurance cover from a household name you can trust.",
+  "brandBenefits": {
+    "Benefits": ["Up to £1million buildings cover & up to £85,000 contents cover", "Free garden cover when you take out buildings insurance", "New for Old replacement on your contents (excludes clothing and linen)", "Free legal advice with our exclusive helpline", "Dedicated UK claims handlers", "Manage your policy 24/7 from your secure online account"],
+  },
+  "importantText": ["AXA Insurance UK plc is registered in England and Wales registered number 078950 and authorised and regulated by the Financial Services Authority, FSA number 202312. Registered address is 5 Old Broad Street, London EC2N 1AD.", "Your quote has been based on a number of assumptions. Please check your details with AXA before purchasing."],
+  "onlinePurchaseSupported": true,
+  "offlinePresence": {
+  "OfflinePurchaseSupported": false,
+    "OpeningTimes": null,
+    "PhoneNumber": null,
+    "SupportCopy": null
+  },
+  "offer": {
+    "terms": null,
+    "text": null
+  },
+  "Name": "AXAH"
+};
+
 var TextItem = function(value) {
   this.text = ko.observable(value);
 };
