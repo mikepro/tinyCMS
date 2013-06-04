@@ -71,16 +71,33 @@ var tinyCmsViewModel = {
 
   populateBrand : function(data) {
     this.selectedBrand(this.createBrandViewModel(data));
+  },
+
+  serialiseBrand: function(brandViewModel) {
+    function flattenTextNodes(object, propertyName) {
+      object[propertyName] = ko.utils.arrayMap(object[propertyName], function(item){
+        return item.text;
+      });
+    }
+
+    var js = ko.mapping.toJS(brandViewModel);
+
+    flattenTextNodes(js, "Benefits");
+    flattenTextNodes(js, "importantText")
+
+    return js;
   }
 };
 
 tinyCmsViewModel.editPublished = function() {
   this.displayMode(false);
-  this.editedBrand(this.createBrandViewModel(testData));
+  this.editedBrand(this.createBrandViewModel(this.serialiseBrand(this.selectedBrand())));
 };
 
 tinyCmsViewModel.saveEditing = function() {
+  this.selectedBrand(this.editedBrand());
   this.editedBrand(null);
+
   this.displayMode(true);
 };
 
