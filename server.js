@@ -1,3 +1,5 @@
-var connect = require('connect');
+var express = require('express');
 
-var app = connect().use(connect.static('content')).listen(8022);
+var app = express();
+app.use(express.static(__dirname +'/content'));
+app.listen(8022);
