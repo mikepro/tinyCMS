@@ -52,6 +52,8 @@ var TextItem = function(value) {
 
 var tinyCmsViewModel = {
 
+  allBrands: ko.observableArray([]),
+
   selectedBrand: ko.observable(),
   editedBrand: ko.observable(),
   displayMode: ko.observable(true),
@@ -126,5 +128,10 @@ tinyCmsViewModel.cancelEditing = function() {
 };
 
 tinyCmsViewModel.populateBrand(testData2);
+
+
+$.getJSON('/brands/list.json',function(data) {
+  tinyCmsViewModel.allBrands(data);
+});
 
 ko.applyBindings(tinyCmsViewModel);
