@@ -27,25 +27,36 @@ function CleanupBrandData(brandData) {
   return brandData;
 }
 
-var db = (function() {
-  var server = new mongo.Server(
-    'localhost',
-    27017,
-    {auto_reconnect: true});
-  return new mongo.Db('tinyCMS', server, {safe: true});
-})();
+mongo.MongoClient.connect("mongodb://localhost:27017/tinyCMS", function(err, db) {
+  if(!err) {
+    console.log("We are connected");
+  }
 
-brands.Brands.forEach(function(brandData) {
-
-  var brand = CleanupBrandData(brandData);
-  brand.status = "published";
-  brand.createdAt = new Date();
-
-  db.collection('brands').insert(brand, function(err, inserted) {
+  db.createCollection('brands', function(err, collection) {
     if (err) {
       console.log(err);
     }
-  });
 
-  console.log(" * " + brand.brandCode);
+    var i = 0;
+
+    collection.createIndex({brandCode:1, status:1}, {unique:true, w:1}, function(error, indexName) {
+      if (!err) {
+        console.log('Index created: ' + indexName);
+      }
+
+      brands.Brands.forEach(function(brandData) {
+        var brand = CleanupBrandData(brandData);
+        brand.status = "published";
+        brand.createdAt = new Date();
+
+        collection.insert(brand, function(err, r) {
+          if (!err) {
+            console.log('*' + brand.brandCode + ' (' + i++ + ')');
+          } else {
+            console.log(err.err);
+          }
+        });
+      });
+    });
+  });
 });
