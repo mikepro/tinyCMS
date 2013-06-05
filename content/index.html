@@ -70,6 +70,7 @@
         <input type="checkbox" disabled="disabled" data-bind="checked: offlinePresence.OfflinePurchaseSupported" /> Offline purchase supported
     </label>
 
+    <!-- ko if: offlinePresence.OfflinePurchaseSupported -->
     <h4>Opening times</h4>
 
     <dl class="dl-horizontal">
@@ -105,6 +106,7 @@
         <dt>Support Copy</dt>
         <dd data-bind="html: offlinePresence.SupportCopy"></dd>
     </dl>
+    <!-- /ko -->
 
     <h3>Offer</h3>
     <dl>
@@ -171,6 +173,7 @@
                 <input type="checkbox" data-bind="checked: offlinePresence.OfflinePurchaseSupported" /> Offline purchase supported
             </label>
 
+            <!-- ko if: offlinePresence.OfflinePurchaseSupported -->
             Opening times:
 
             <div class="form-horizontal">
@@ -238,6 +241,8 @@
 
             <label>Support Copy</label>
             <textarea rows=3 class="span8" data-bind="text: offlinePresence.SupportCopy"></textarea>
+
+            <!-- /ko -->
 
         </fieldset>
 
