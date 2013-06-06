@@ -15,7 +15,7 @@ function CleanupBrandData(brandData) {
   delete brandData.brandBenefits;
 
   delete brandData.features;
-  delete brandData.logoUrl;
+  delete brandData.LogoUrl;
   if (brandData.offlinePresence) {
     if (brandData.offlinePresence.OpeningTimes) {
       delete brandData.offlinePresence.OpeningTimes.Name;
