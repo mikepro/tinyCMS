@@ -21,9 +21,14 @@
         <div class="span2">
             <!-- ko if: displayMode -->
 
-            <select data-bind="options: allBrands, optionsText: 'brandName', optionsValue: 'brandCode'"> </select>
-
-            <button class="btn btn-primary" type="button" data-bind="click: $root.editPublished.bind($root)"><i class="icon-edit"></i> Edit</button>
+            <div class="well well-small">
+            <ul class="nav nav-list">
+                <li class="nav-header">Brands</li>
+                <!-- ko foreach: allBrands -->
+                <li><a href="#" data-bind="text: brandName, attr: {title: brandCode}, click: $parent.selectBrand"></a></li>
+                <!-- /ko -->
+            </ul>
+            </div>
             <!-- /ko -->
         </div>
         <div class="span10">
@@ -109,6 +114,7 @@
         <dt>Support Copy</dt>
         <dd data-bind="html: offlinePresence.SupportCopy"></dd>
     </dl>
+
     <!-- /ko -->
 
     <h3>Offer</h3>
@@ -119,6 +125,8 @@
         <dt>Terms</dt>
         <dd data-bind="html: offer.terms"></dd>
     </dl>
+
+    <button class="btn btn-primary" type="button" data-bind="click: $root.editPublished.bind($root)"><i class="icon-edit"></i> Edit</button>
 </script>
 
 <script type="text/html" id="editBrand">

@@ -107,6 +107,10 @@ var tinyCmsViewModel = {
     flattenTextNodes(js, "importantText")
 
     return js;
+  },
+
+  selectBrand: function(brand) {
+    alert(brand.brandCode);
   }
 };
 
