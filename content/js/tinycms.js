@@ -53,6 +53,7 @@ var TextItem = function(value) {
 var tinyCmsViewModel = {
 
   allBrands: ko.observableArray([]),
+  errorMessage: ko.observable(),
 
   selectedBrand: ko.observable(),
   editedBrand: ko.observable(),
@@ -110,7 +111,13 @@ var tinyCmsViewModel = {
   },
 
   selectBrand: function(brand) {
-    alert(brand.brandCode);
+    var viewModel = this;
+    $.getJSON('/brands/get.json',{code: brand.brandCode}, function() {
+
+    }).fail(function() {
+      viewModel.errorMessage('There was a problem getting the brand data for: ' + brand.brandName);
+        $('#alertModal').modal('show');
+    });
   }
 };
 
