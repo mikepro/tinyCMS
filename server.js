@@ -7,7 +7,11 @@ app.get('/brands/list.json',function(req, res) {
 });
 
 app.get('/brands/get.json', function(req, res) {
-  console.log(req.param.code)
+  if (req.query.code) {
+    repository.get(req.query.code, res);
+  } else {
+    res.send(400, {error:'A query parameter "code" is required'});
+  }
 });
 
 app.use(express.static(__dirname +'/content'));
