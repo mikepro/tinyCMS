@@ -17,7 +17,7 @@
         <p data-bind="text: errorMessage" ></p>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary">OK</button>
+        <button class="btn btn-primary" data-dismiss="modal">OK</button>
     </div>
 </div>
 
@@ -38,7 +38,9 @@
             <ul class="nav nav-list">
                 <li class="nav-header">Brands</li>
                 <!-- ko foreach: allBrands -->
-                <li><a href="#" data-bind="text: brandName, attr: {title: brandCode}, click: $parent.selectBrand"></a></li>
+                <li><a href="#"
+                       data-bind="text: brandName, attr: {title: brandCode}, click: $parent.selectBrand.bind($root)"></a>
+                </li>
                 <!-- /ko -->
             </ul>
             </div>
