@@ -11,6 +11,8 @@ var tinyCmsViewModel = {
   editedBrand: ko.observable(),
   IsDisplayMode: ko.observable(true),
 
+  brandRecords : ko.observableArray([]),
+
   createBrandViewModel: function(data) {
     var model = ko.mapping.fromJS(data, {
       'Benefits': {
@@ -40,11 +42,18 @@ var tinyCmsViewModel = {
     model.addImportantText = function() {
       this.importantText.push(new TextItem());
     };
+
     return model;
   },
 
   populateBrand : function(data) {
-    this.selectedBrand(this.createBrandViewModel(data));
+    var model = this;
+    model.brandRecords.removeAll();
+    $.each(data, function(index, brandRecord) {
+      model.brandRecords.push(model.createBrandViewModel(brandRecord))
+    });
+
+    this.selectedBrand(this.brandRecords()[0]);
   },
 
   serialiseBrand: function(brandViewModel) {
@@ -66,13 +75,17 @@ var tinyCmsViewModel = {
     var viewModel = this;
     $.getJSON('/brands/get.json',{code: brand.brandCode})
       .done(function(data) {
-        viewModel.populateBrand(data[0]);
+        viewModel.populateBrand(data);
         $(window).scrollTop(0);
       })
       .fail(function() {
         viewModel.errorMessage('There was a problem getting the brand data for: ' + brand.brandName);
         $('#alertModal').modal('show');
       });
+  },
+
+  selectBrandRecord: function(brandRecord) {
+    this.selectedBrand(brandRecord);
   }
 };
 
