@@ -32,7 +32,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">
-            <!-- ko if: displayMode -->
+            <!-- ko if: IsDisplayMode -->
 
             <div class="well well-small">
             <ul class="nav nav-list">
@@ -51,7 +51,7 @@
             <!-- /ko -->
         </div>
         <div class="span10">
-        <!-- ko if: displayMode -->
+        <!-- ko if: IsDisplayMode -->
         <!-- ko with: selectedBrand -->
             <!-- ko template: { name: 'showBrand' } -->
             <!-- /ko -->

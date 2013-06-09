@@ -9,7 +9,7 @@ var tinyCmsViewModel = {
 
   selectedBrand: ko.observable(),
   editedBrand: ko.observable(),
-  displayMode: ko.observable(true),
+  IsDisplayMode: ko.observable(true),
 
   createBrandViewModel: function(data) {
     var model = ko.mapping.fromJS(data, {
@@ -77,7 +77,7 @@ var tinyCmsViewModel = {
 };
 
 tinyCmsViewModel.editPublished = function() {
-  this.displayMode(false);
+  this.IsDisplayMode(false);
   this.editedBrand(this.createBrandViewModel(this.serialiseBrand(this.selectedBrand())));
 };
 
@@ -85,12 +85,12 @@ tinyCmsViewModel.saveEditing = function() {
   this.selectedBrand(this.editedBrand());
   this.editedBrand(null);
 
-  this.displayMode(true);
+  this.IsDisplayMode(true);
 };
 
 tinyCmsViewModel.cancelEditing = function() {
   this.editedBrand(null);
-  this.displayMode(true);
+  this.IsDisplayMode(true);
 };
 
 $.getJSON('/brands/list.json',function(data) {
