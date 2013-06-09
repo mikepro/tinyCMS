@@ -7,6 +7,7 @@ var tinyCmsViewModel = {
   allBrands: ko.observableArray([]),
   errorMessage: ko.observable(),
 
+  selectedBrandListItem: ko.observable(),
   selectedBrand: ko.observable(),
   editedBrand: ko.observable(),
   IsDisplayMode: ko.observable(true),
@@ -73,6 +74,7 @@ var tinyCmsViewModel = {
 
   selectBrand: function(brand) {
     var viewModel = this;
+    viewModel.selectedBrandListItem(brand);
     $.getJSON('/brands/get.json',{code: brand.brandCode})
       .done(function(data) {
         viewModel.populateBrand(data);

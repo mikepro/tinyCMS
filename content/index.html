@@ -38,7 +38,9 @@
             <ul class="nav nav-list">
                 <li class="nav-header">Brands</li>
                 <!-- ko foreach: allBrands -->
-                <li>
+                <li data-bind="
+                    css: {active: $data == $root.selectedBrandListItem()}
+                    ">
                 <a href="#"
                        data-bind="
                         text: brandName,
