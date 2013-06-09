@@ -38,8 +38,12 @@
             <ul class="nav nav-list">
                 <li class="nav-header">Brands</li>
                 <!-- ko foreach: allBrands -->
-                <li><a href="#"
-                       data-bind="text: brandName, attr: {title: brandCode}, click: $parent.selectBrand.bind($root)"></a>
+                <li>
+                <a href="#"
+                       data-bind="
+                        text: brandName,
+                        attr: {title: brandCode},
+                        click: $parent.selectBrand.bind($root)"></a>
                 </li>
                 <!-- /ko -->
             </ul>
