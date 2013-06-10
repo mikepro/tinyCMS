@@ -56,7 +56,7 @@
         <!-- ko if: IsDisplayMode -->
             <ul class="nav nav-pills">
             <!-- ko foreach: brandRecords -->
-                <li data-bind="css: {active: $data == $root.selectedBrand()}">
+                <li data-bind="css: {active: $data == $root.selectedBrandRecord()}">
                     <a href="#" data-bind="
                         text: status,
                         click: $parent.selectBrandRecord.bind($root)
@@ -64,7 +64,7 @@
                 </li>
             <!-- /ko -->
             </ul>
-        <!-- ko with: selectedBrand -->
+        <!-- ko with: selectedBrandRecord -->
             <!-- ko template: { name: 'showBrand' } -->
             <!-- /ko -->
         <!-- /ko -->

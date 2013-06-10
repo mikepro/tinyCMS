@@ -8,7 +8,7 @@ var tinyCmsViewModel = {
   errorMessage: ko.observable(),
 
   selectedBrandListItem: ko.observable(),
-  selectedBrand: ko.observable(),
+  selectedBrandRecord: ko.observable(),
   editedBrand: ko.observable(),
   IsDisplayMode: ko.observable(true),
 
@@ -54,7 +54,7 @@ var tinyCmsViewModel = {
       model.brandRecords.push(model.createBrandViewModel(brandRecord))
     });
 
-    this.selectedBrand(this.brandRecords()[0]);
+    this.selectedBrandRecord(this.brandRecords()[0]);
   },
 
   serialiseBrand: function(brandViewModel) {
@@ -87,17 +87,17 @@ var tinyCmsViewModel = {
   },
 
   selectBrandRecord: function(brandRecord) {
-    this.selectedBrand(brandRecord);
+    this.selectedBrandRecord(brandRecord);
   }
 };
 
 tinyCmsViewModel.editPublished = function() {
   this.IsDisplayMode(false);
-  this.editedBrand(this.createBrandViewModel(this.serialiseBrand(this.selectedBrand())));
+  this.editedBrand(this.createBrandViewModel(this.serialiseBrand(this.selectedBrandRecord())));
 };
 
 tinyCmsViewModel.saveEditing = function() {
-  this.selectedBrand(this.editedBrand());
+  this.selectedBrandRecord(this.editedBrand());
   this.editedBrand(null);
 
   this.IsDisplayMode(true);
