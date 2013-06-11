@@ -24,7 +24,7 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="brand" href="#">Tiny brand CMS</a>
+            <a class="brand" href="#" data-bind="click: navigateHome">Tiny brand CMS</a>
         </div>
     </div>
 </div>
@@ -53,6 +53,15 @@
             <!-- /ko -->
         </div>
         <div class="span10">
+        <!-- ko if: !selectedBrandListItem() -->
+            <div class="hero-unit">
+                <img src="img/maiya.png" class="pull-left"/>
+                <br />
+                <h1>Welcome to tiny CMS</h1>
+                <h2>Simple brand content management system</h2>
+                <p>Make sure you make no mistakes or the pups in Meerkovo will be very disappointed.</p>
+            </div>
+        <!-- /ko -->
         <!-- ko if: IsDisplayMode -->
             <ul class="nav nav-pills">
             <!-- ko foreach: brandRecords -->
@@ -64,10 +73,10 @@
                 </li>
             <!-- /ko -->
             </ul>
-        <!-- ko with: selectedBrandRecord -->
+            <!-- ko with: selectedBrandRecord -->
             <!-- ko template: { name: 'showBrand' } -->
             <!-- /ko -->
-        <!-- /ko -->
+            <!-- /ko -->
         <!-- /ko -->
         <!-- ko with: editedBrand -->
             <!-- ko template: { name: 'editBrand' } -->
@@ -82,7 +91,7 @@
 
     <dl>
         <dt>Strapline</dt>
-        <dd data-bind="text: strapLine"></dd>
+        <dd data-bind="html: strapLine"></dd>
     </dl>
 
     <h3>Important text</h3>

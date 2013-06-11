@@ -14,6 +14,14 @@ var tinyCmsViewModel = {
 
   brandRecords : ko.observableArray([]),
 
+  navigateHome: function() {
+    if (this.IsDisplayMode()) {
+      this.selectedBrandRecord(null);
+      this.selectedBrandListItem(null);
+      this.brandRecords([]);
+    }
+  },
+
   createBrandViewModel: function(data) {
     var model = ko.mapping.fromJS(data, {
       'Benefits': {
