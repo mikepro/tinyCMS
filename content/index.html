@@ -32,7 +32,7 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">
-            <!-- ko if: IsDisplayMode -->
+            <!-- ko if: !selectedBrand() || selectedBrand().isDisplayMode() -->
 
             <div class="well well-small">
             <ul class="nav nav-list">
@@ -53,6 +53,7 @@
             <!-- /ko -->
         </div>
         <div class="span10">
+
         <!-- ko if: !selectedBrandListItem() -->
             <div class="hero-unit">
                 <img src="img/maiya.png" width="148" height="185" class="pull-left"/>
@@ -62,24 +63,28 @@
                 <p>Make sure you make no mistakes or the pups in Meerkovo will be very disappointed.</p>
             </div>
         <!-- /ko -->
-        <!-- ko if: IsDisplayMode -->
+
+        <!-- ko with: selectedBrand -->
+            <!-- ko if: isDisplayMode -->
             <ul class="nav nav-pills">
-            <!-- ko foreach: brandRecords -->
-                <li data-bind="css: {active: $data == $root.selectedBrandRecord()}">
+                <!-- ko foreach: brandRecords -->
+                <li data-bind="css: {active: $data == $parent.selectedRecord()}">
                     <a href="#" data-bind="
                         text: status,
                         click: $parent.selectBrandRecord.bind($root)
                     "></a>
                 </li>
-            <!-- /ko -->
+                <!-- /ko -->
             </ul>
-            <!-- ko with: selectedBrandRecord -->
-            <!-- ko template: { name: 'showBrand' } -->
+                <!-- ko with: selectedRecord -->
+                    <!-- ko template: { name: 'showBrand' } -->
+                    <!-- /ko -->
+                <!-- /ko -->
             <!-- /ko -->
-            <!-- /ko -->
-        <!-- /ko -->
-        <!-- ko with: editedBrand -->
-            <!-- ko template: { name: 'editBrand' } -->
+
+            <!-- ko with: editedRecord -->
+                <!-- ko template: { name: 'editBrand' } -->
+                <!-- /ko -->
             <!-- /ko -->
         <!-- /ko -->
         </div>
@@ -166,7 +171,7 @@
         <dd data-bind="html: offer.terms"></dd>
     </dl>
 
-    <button class="btn btn-primary" type="button" data-bind="click: $root.editPublished.bind($root)"><i class="icon-edit"></i> Edit</button>
+    <button class="btn btn-primary" type="button" data-bind="click: $parent.editPublished"><i class="icon-edit"></i> Edit</button>
 </script>
 
 <script type="text/html" id="editBrand">
@@ -311,8 +316,8 @@
         </fieldset>
 
         <div class="form-actions">
-            <button class="btn btn-primary" type="button" data-bind="click: $root.saveEditing.bind($root)"><i class="icon-edit"></i> Save</button>
-            <button class="btn" type="button" data-bind="click: $root.cancelEditing.bind($root)"><i class="icon-edit"></i> Cancel</button>
+            <button class="btn btn-primary" type="button" data-bind="click: $parent.saveEditing"><i class="icon-edit"></i> Save</button>
+            <button class="btn" type="button" data-bind="click: $parent.cancelEditing"><i class="icon-edit"></i> Cancel</button>
         </div>
 
     </form>

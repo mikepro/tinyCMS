@@ -2,28 +2,17 @@ var TextItem = function(value) {
   this.text = ko.observable(value);
 };
 
-var tinyCmsViewModel = {
+var BrandViewModel = function(brandData) {
+  var self = this;
 
-  allBrands: ko.observableArray([]),
-  errorMessage: ko.observable(),
+  self.isDisplayMode = ko.observable(true);
+  self.brandRecords = ko.observableArray([]);
 
-  selectedBrandListItem: ko.observable(),
-  selectedBrandRecord: ko.observable(),
-  editedBrand: ko.observable(),
-  IsDisplayMode: ko.observable(true),
+  self.selectedRecord = ko.observable();
+  self.editedRecord = ko.observable();
 
-  brandRecords : ko.observableArray([]),
-
-  navigateHome: function() {
-    if (this.IsDisplayMode()) {
-      this.selectedBrandRecord(null);
-      this.selectedBrandListItem(null);
-      this.brandRecords([]);
-    }
-  },
-
-  createBrandViewModel: function(data) {
-    var model = ko.mapping.fromJS(data, {
+  self.createBrandRecordViewModel = function(singleBrandRecord) {
+    var model = ko.mapping.fromJS(singleBrandRecord, {
       'Benefits': {
         create: function(options) {
           return new TextItem(options.data);
@@ -53,19 +42,9 @@ var tinyCmsViewModel = {
     };
 
     return model;
-  },
+  };
 
-  populateBrand : function(data) {
-    var model = this;
-    model.brandRecords.removeAll();
-    $.each(data, function(index, brandRecord) {
-      model.brandRecords.push(model.createBrandViewModel(brandRecord))
-    });
-
-    this.selectedBrandRecord(this.brandRecords()[0]);
-  },
-
-  serialiseBrand: function(brandViewModel) {
+  self.serialiseBrand = function(brandViewModel) {
     function flattenTextNodes(object, propertyName) {
       object[propertyName] = ko.utils.arrayMap(object[propertyName], function(item){
         return item.text;
@@ -75,17 +54,67 @@ var tinyCmsViewModel = {
     var js = ko.mapping.toJS(brandViewModel);
 
     flattenTextNodes(js, "Benefits");
-    flattenTextNodes(js, "importantText")
+    flattenTextNodes(js, "importantText");
 
     return js;
+  };
+
+  self.selectBrandRecord = function(brandRecord) {
+    self.selectedRecord(brandRecord);
+  };
+
+  self.editPublished = function() {
+    self.isDisplayMode(false);
+    self.editedRecord(
+      self.createBrandRecordViewModel(
+        self.serialiseBrand(self.selectedRecord())));
+  };
+
+  self.saveEditing = function() {
+    self.selectedRecord(self.editedRecord());
+    self.editedRecord(null);
+
+    self.isDisplayMode(true);
+  };
+
+  self.cancelEditing = function() {
+    self.editedRecord(null);
+    self.isDisplayMode(true);
+  };
+
+  $.each(brandData, function(index, brandRecord) {
+    self.brandRecords.push(self.createBrandRecordViewModel(brandRecord))
+  });
+
+  self.selectBrandRecord(self.brandRecords()[0]);
+};
+
+var tinyCmsViewModel = {
+
+  errorMessage: ko.observable(),
+
+  allBrands: ko.observableArray([]),
+  selectedBrandListItem: ko.observable(),
+
+  selectedBrand: ko.observable(),
+
+  navigateHome: function() {
+    if (this.selectedBrand() && this.selectedBrand().isDisplayMode()) {
+      this.selectedBrand(null);
+      this.selectedBrandListItem(null);
+    }
+  },
+
+  populateBrand : function(data) {
+    this.selectedBrand(new BrandViewModel(data));
   },
 
   selectBrand: function(brand) {
     var viewModel = this;
     $.getJSON('/brands/get.json',{code: brand.brandCode})
       .done(function(data) {
-        viewModel.populateBrand(data);
         viewModel.selectedBrandListItem(brand);
+        viewModel.populateBrand(data);
         $(window).scrollTop(0);
       })
       .fail(function() {
@@ -93,28 +122,7 @@ var tinyCmsViewModel = {
         viewModel.selectedBrandListItem(null);
         $('#alertModal').modal('show');
       });
-  },
-
-  selectBrandRecord: function(brandRecord) {
-    this.selectedBrandRecord(brandRecord);
   }
-};
-
-tinyCmsViewModel.editPublished = function() {
-  this.IsDisplayMode(false);
-  this.editedBrand(this.createBrandViewModel(this.serialiseBrand(this.selectedBrandRecord())));
-};
-
-tinyCmsViewModel.saveEditing = function() {
-  this.selectedBrandRecord(this.editedBrand());
-  this.editedBrand(null);
-
-  this.IsDisplayMode(true);
-};
-
-tinyCmsViewModel.cancelEditing = function() {
-  this.editedBrand(null);
-  this.IsDisplayMode(true);
 };
 
 $.getJSON('/brands/list.json',function(data) {
