@@ -95,13 +95,20 @@ var BrandViewModel = function(brandData) {
       self.brandRecords.push(self.editedRecord());
     }
 
-    //TODO: Handle failure, confirm success, timing?
-    $.post('/brands/save', self.serialiseBrand(self.editedRecord()));
-
-    self.selectedRecord(self.editedRecord());
-    self.editedRecord(null);
-
-    self.isDisplayMode(true);
+    //TODO: Confirm success
+    $.post('/brands/save', self.serialiseBrand(self.editedRecord()))
+      .done(function(data) {
+        if (data) {
+          self.editedRecord()._id = data;
+        }
+        self.selectedRecord(self.editedRecord());
+        self.editedRecord(null);
+        self.isDisplayMode(true);
+      })
+      .fail(function(message) {
+        viewModel.errorMessage('There was a problem saving your changes: ' + message);
+        $('#alertModal').modal('show');
+      });
   };
 
   self.cancelEditing = function() {
