@@ -14,5 +14,9 @@ app.get('/brands/get.json', function(req, res) {
   }
 });
 
+app.get('/brands/published.json', function(req, res) {
+  repository.published(res);
+});
+
 app.use(express.static(__dirname +'/content'));
 app.listen(8022);
