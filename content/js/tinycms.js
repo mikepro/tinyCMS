@@ -63,14 +63,38 @@ var BrandViewModel = function(brandData) {
     self.selectedRecord(brandRecord);
   };
 
-  self.editPublished = function() {
+  self.edit = function () {
     self.isDisplayMode(false);
-    self.editedRecord(
-      self.createBrandRecordViewModel(
-        self.serialiseBrand(self.selectedRecord())));
+
+    var existingUnpublished = ko.utils.arrayFirst(self.brandRecords(), function(item) {
+      return item.status() == 'unpublished';
+    });
+
+    var brandRecord;
+    if (existingUnpublished) {
+      brandRecord = self.serialiseBrand(existingUnpublished);
+    } else {
+      brandRecord = self.serialiseBrand(self.selectedRecord());
+      delete brandRecord._id;
+      brandRecord.status = 'unpublished';
+    }
+
+    self.editedRecord(self.createBrandRecordViewModel(brandRecord));
   };
 
   self.saveEditing = function() {
+
+    var existingUnpublished = ko.utils.arrayFirst(self.brandRecords(), function(item) {
+      return item.status() == 'unpublished';
+    });
+
+    if (existingUnpublished) {
+      var index = self.brandRecords().indexOf(existingUnpublished);
+      self.brandRecords()[index] = self.editedRecord();
+    } else {
+      self.brandRecords.push(self.editedRecord());
+    }
+
     self.selectedRecord(self.editedRecord());
     self.editedRecord(null);
 

@@ -66,6 +66,14 @@
 
         <!-- ko with: selectedBrand -->
             <!-- ko if: isDisplayMode -->
+            <button
+                    class="pull-right btn btn-primary"
+                    type="button"
+                    data-bind="click: edit"
+                    title="Edits the brand data">
+                <i class="icon-edit"></i> Edit
+            </button>
+
             <ul class="nav nav-pills">
                 <!-- ko foreach: brandRecords -->
                 <li data-bind="css: {active: $data == $parent.selectedRecord()}">
@@ -170,8 +178,6 @@
         <dt>Terms</dt>
         <dd data-bind="html: offer.terms"></dd>
     </dl>
-
-    <button class="btn btn-primary" type="button" data-bind="click: $parent.editPublished"><i class="icon-edit"></i> Edit</button>
 </script>
 
 <script type="text/html" id="editBrand">
