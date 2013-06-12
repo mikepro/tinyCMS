@@ -82,14 +82,15 @@ var tinyCmsViewModel = {
 
   selectBrand: function(brand) {
     var viewModel = this;
-    viewModel.selectedBrandListItem(brand);
     $.getJSON('/brands/get.json',{code: brand.brandCode})
       .done(function(data) {
         viewModel.populateBrand(data);
+        viewModel.selectedBrandListItem(brand);
         $(window).scrollTop(0);
       })
       .fail(function() {
         viewModel.errorMessage('There was a problem getting the brand data for: ' + brand.brandName);
+        viewModel.selectedBrandListItem(null);
         $('#alertModal').modal('show');
       });
   },
