@@ -95,6 +95,9 @@ var BrandViewModel = function(brandData) {
       self.brandRecords.push(self.editedRecord());
     }
 
+    //TODO: Handle failure, confirm success, timing?
+    $.post('/brands/save', self.serialiseBrand(self.editedRecord()));
+
     self.selectedRecord(self.editedRecord());
     self.editedRecord(null);
 
