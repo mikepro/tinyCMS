@@ -41,6 +41,9 @@
                 <li data-bind="
                     css: {active: $data == $root.selectedBrandListItem()}
                     ">
+                    <!-- ko if: count > 1 -->
+                    <i class="icon-wrench pull-right"></i>
+                    <!-- /ko -->
                 <a href="#"
                        data-bind="
                         text: brandName,
