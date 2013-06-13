@@ -112,15 +112,15 @@ var BrandViewModel = function(brandData) {
     //TODO: Confirm success
     $.post('/brands/save', self.serialiseBrand(self.editedRecord()))
       .done(function(data) {
-        if (data) {
-          self.editedRecord()._id = data;
+        if (data && data.id) {
+          self.editedRecord()._id = data.id;
         }
         self.selectedRecord(self.editedRecord());
         self.editedRecord(null);
         self.isDisplayMode(true);
       })
       .fail(function(message) {
-        viewModel.errorMessage('There was a problem saving your changes: ' + message);
+        tinyCmsViewModel.errorMessage('There was a problem saving your changes: ' + message.err);
         $('#alertModal').modal('show');
       });
   };
