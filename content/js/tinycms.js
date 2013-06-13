@@ -66,9 +66,7 @@ var BrandViewModel = function(brandData) {
   self.edit = function () {
     self.isDisplayMode(false);
 
-    var existingUnpublished = ko.utils.arrayFirst(self.brandRecords(), function(item) {
-      return item.status() == 'unpublished';
-    });
+    var existingUnpublished = getBrandRecordByStatus('unpublished');
 
     var brandRecord;
     if (existingUnpublished) {
@@ -82,12 +80,28 @@ var BrandViewModel = function(brandData) {
     self.editedRecord(self.createBrandRecordViewModel(brandRecord));
   };
 
-  self.saveEditing = function() {
+  self.publish = function() {
+    if (window.confirm('Are you sure you want to make all changes public?')) {
+      var selected = self.selectedRecord();
+      $.post('/brands/publish',{brandCode: selected.brandCode(), id : selected._id})
+        .done(function() {
+          var existingPublished = getBrandRecordByStatus('published');
+          if (existingPublished) {
+            self.brandRecords.remove(existingPublished);
+          }
+          selected.status('published');
+        });
+    }
+  };
 
-    var existingUnpublished = ko.utils.arrayFirst(self.brandRecords(), function(item) {
-      return item.status() == 'unpublished';
+  function getBrandRecordByStatus(status) {
+    return ko.utils.arrayFirst(self.brandRecords(), function (item) {
+      return item.status() == status;
     });
+  }
 
+  self.saveEditing = function() {
+    var existingUnpublished = getBrandRecordByStatus('unpublished');
     if (existingUnpublished) {
       var index = self.brandRecords().indexOf(existingUnpublished);
       self.brandRecords()[index] = self.editedRecord();

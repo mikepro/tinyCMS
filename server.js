@@ -17,7 +17,19 @@ app.get('/brands/get.json', function(req, res) {
 });
 
 app.post('/brands/save', function(req, res) {
+  if (!req.body) {
+    res.send(400);
+    return;
+  }
   repository.save(req.body, res);
+});
+
+app.post('/brands/publish', function(req, res) {
+  if (!req.body) {
+    res.send(400);
+    return;
+  }
+  repository.publish(req.body, res);
 });
 
 app.get('/brands/published.json', function(req, res) {
