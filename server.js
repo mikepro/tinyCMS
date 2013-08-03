@@ -36,5 +36,9 @@ app.get('/brands/published.json', function(req, res) {
   repository.published(res);
 });
 
+app.get('/brands/unpublished.json', function(req, res) {
+
+});
+
 app.use(express.static(__dirname +'/content'));
 app.listen(8022);
