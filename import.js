@@ -52,7 +52,8 @@ var processData = function (data) {
 
           var brandDocument = {
             code: brandData.brandCode,
-            published: brandData
+            published: brandData,
+            draft: null
           };
 
           delete brandData.brandCode;
