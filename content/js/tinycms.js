@@ -11,7 +11,9 @@ var BrandViewModel = function(brandData) {
   self.selectedRecord = ko.observable();
   self.editedRecord = ko.observable();
 
-  self.createBrandRecordViewModel = function(singleBrandRecord) {
+  self.code = ko.observable(brandData.code);
+
+  self.createBrandRecordViewModel = function(singleBrandRecord, status) {
     var model = ko.mapping.fromJS(singleBrandRecord, {
       'Benefits': {
         create: function(options) {
@@ -41,6 +43,8 @@ var BrandViewModel = function(brandData) {
       this.importantText.push(new TextItem());
     };
 
+    model.status = ko.observable(status);
+
     return model;
   };
 
@@ -55,6 +59,7 @@ var BrandViewModel = function(brandData) {
 
     flattenTextNodes(js, "Benefits");
     flattenTextNodes(js, "importantText");
+    delete js.status;
 
     return js;
   };
@@ -130,9 +135,17 @@ var BrandViewModel = function(brandData) {
     self.isDisplayMode(true);
   };
 
-  $.each(brandData, function(index, brandRecord) {
-    self.brandRecords.push(self.createBrandRecordViewModel(brandRecord))
-  });
+  if (brandData.published) {
+    self.brandRecords.push(
+      self.createBrandRecordViewModel(brandData.published, 'published')
+    );
+  }
+
+  if (brandData.draft) {
+    self.brandRecords.push(
+      self.createBrandRecordViewModel(brandData.draft, 'draft')
+    );
+  }
 
   self.selectBrandRecord(self.brandRecords()[0]);
 };

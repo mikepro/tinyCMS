@@ -117,7 +117,7 @@
 </div>
 
 <script type="text/html" id="showBrand">
-    <h1><span data-bind="text: brandName"></span> (<span data-bind="text: brandCode"></span>)</h1>
+    <h1><span data-bind="text: brandName"></span> (<span data-bind="text: $parent.code"></span>)</h1>
 
     <dl>
         <dt>Strapline</dt>
@@ -200,10 +200,7 @@
 <script type="text/html" id="editBrand">
     <form>
         <fieldset>
-            <legend>Brand</legend>
-
-            <label>Code</label>
-            <span class="input-small uneditable-input" data-bind="text: brandCode"></span>
+            <legend>Brand <span data-bind="text: $parent.code"></span></legend>
 
             <label>Name</label>
             <input type="text" data-bind="value: brandName"/>
