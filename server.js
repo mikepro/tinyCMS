@@ -38,5 +38,9 @@ app.get('/brands/published.json', function (req, res) {
   repository.published(res);
 });
 
+app.get('/brands/drafts.json', function (req, res) {
+  repository.drafts(res);
+});
+
 app.use(express.static(__dirname + '/content'));
 app.listen(8022);
