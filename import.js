@@ -8,8 +8,7 @@ var
 
 var processData = function (data) {
 
-  function cleanupBrandData(brandData) {
-    brandData.brandCode = brandData.Name;
+  var cleanupBrandData = function (brandData) {
     delete brandData.Name;
 
     brandData.Benefits = brandData.brandBenefits.Benefits;
@@ -46,14 +45,16 @@ var processData = function (data) {
         }
 
         brands.Brands.forEach(function (brandData) {
+          var code = brandData.Name;
           cleanupBrandData(brandData);
 
-          brandData.created = {data: new Date(), user: 'import'};
+          brandData.created = {date: new Date(), user: 'import'};
 
           var brandDocument = {
-            code: brandData.brandCode,
+            code: code,
             published: brandData,
-            draft: null
+            draft: null,
+            version: 1
           };
 
           delete brandData.brandCode;
