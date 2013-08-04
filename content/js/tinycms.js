@@ -12,6 +12,7 @@ var BrandViewModel = function(brandData) {
   self.editedRecord = ko.observable();
 
   self.code = ko.observable(brandData.code);
+  self.recordDescriptor = {id: brandData._id, version: brandData.version};
 
   self.createBrandRecordViewModel = function(singleBrandRecord, status) {
     var model = ko.mapping.fromJS(singleBrandRecord, {
@@ -71,7 +72,7 @@ var BrandViewModel = function(brandData) {
   self.edit = function () {
     self.isDisplayMode(false);
 
-    var existingUnpublished = getBrandRecordByStatus('unpublished');
+    var existingUnpublished = getBrandRecordByStatus('draft');
 
     var brandRecord;
     if (existingUnpublished) {
@@ -79,7 +80,7 @@ var BrandViewModel = function(brandData) {
     } else {
       brandRecord = self.serialiseBrand(self.selectedRecord());
       delete brandRecord._id;
-      brandRecord.status = 'unpublished';
+      brandRecord.status = 'draft';
     }
 
     self.editedRecord(self.createBrandRecordViewModel(brandRecord));
@@ -106,7 +107,7 @@ var BrandViewModel = function(brandData) {
   }
 
   self.saveEditing = function() {
-    var existingUnpublished = getBrandRecordByStatus('unpublished');
+    var existingUnpublished = getBrandRecordByStatus('draft');
     if (existingUnpublished) {
       var index = self.brandRecords().indexOf(existingUnpublished);
       self.brandRecords()[index] = self.editedRecord();
@@ -115,11 +116,14 @@ var BrandViewModel = function(brandData) {
     }
 
     //TODO: Confirm success
-    $.post('/brands/save', self.serialiseBrand(self.editedRecord()))
+    $.post('/brands/save', { descriptor: self.recordDescriptor, data: self.serialiseBrand(self.editedRecord())})
       .done(function(data) {
-        if (data && data.id) {
-          self.editedRecord()._id = data.id;
+        if (data && data.version) {
+          self.recordDescriptor.version = data.version;
         }
+
+        self.editedRecord().status("draft");
+
         self.selectedRecord(self.editedRecord());
         self.editedRecord(null);
         self.isDisplayMode(true);
