@@ -72,15 +72,15 @@ var BrandViewModel = function(brandData) {
   self.edit = function () {
     self.isDisplayMode(false);
 
-    var existingUnpublished = getBrandRecordByStatus('draft');
+    var existingDraft = getBrandRecordByStatus('draft');
 
     var brandRecord;
-    if (existingUnpublished) {
-      brandRecord = self.serialiseBrand(existingUnpublished);
+    if (existingDraft) {
+      brandRecord = self.serialiseBrand(existingDraft);
     } else {
       brandRecord = self.serialiseBrand(self.selectedRecord());
-      delete brandRecord._id;
-      brandRecord.status = 'draft';
+      delete brandRecord.updated;
+      delete brandRecord.created;
     }
 
     self.editedRecord(self.createBrandRecordViewModel(brandRecord));
