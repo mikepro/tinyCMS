@@ -89,13 +89,14 @@ var BrandViewModel = function(brandData) {
   self.publish = function() {
     if (window.confirm('Are you sure you want to make all changes public?')) {
       var selected = self.selectedRecord();
-      $.post('/brands/publish',{brandCode: selected.brandCode(), id : selected._id})
-        .done(function() {
+      $.post('/brands/publish',self.recordDescriptor)
+        .done(function(data) {
           var existingPublished = getBrandRecordByStatus('published');
           if (existingPublished) {
             self.brandRecords.remove(existingPublished);
           }
           selected.status('published');
+          self.recordDescriptor.version = data.version;
         });
     }
   };
