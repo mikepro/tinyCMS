@@ -1,4 +1,6 @@
-tinyCMS
+AngularJS tutorial
 =======
 
-Simple node.js knockout CSM Backed by mongo 
+A tutorial on angular js based on tinyCMS but with AngularJS
+
+Note: Not yet stable rebasing could happen
