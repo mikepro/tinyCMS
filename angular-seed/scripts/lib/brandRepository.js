@@ -4,7 +4,7 @@ function BrandRepository() {
 
   var db;
 
-  mongo.MongoClient.connect("mongodb://localhost:27017/tinyCMS", function(err, database) {
+  mongo.MongoClient.connect("mongodb://192.168.3.10:27017/tinyCMS", function(err, database) {
     if (err) {
       console.log(err);
     }
@@ -35,6 +35,7 @@ function BrandRepository() {
         function (error, result) {
           if (error) {
             res.send(500, error);
+	    console.log("bob");
             return;
           }
           res.json(result);

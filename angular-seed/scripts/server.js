@@ -42,5 +42,5 @@ app.get('/brands/drafts.json', function (req, res) {
   repository.drafts(res);
 });
 
-app.use(express.static(__dirname + '/content'));
+app.use(express.static(__dirname + '/../app/'));
 app.listen(8022);
