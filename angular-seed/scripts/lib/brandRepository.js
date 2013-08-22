@@ -4,7 +4,8 @@ function BrandRepository() {
 
   var db;
 
-  mongo.MongoClient.connect("mongodb://192.168.3.10:27017/tinyCMS", function(err, database) {
+  var mongoConnection = process.argv[2] || "mongodb://127.0.0.1/tinyCMS";
+  mongo.MongoClient.connect(mongoConnection, function(err, database) {
     if (err) {
       console.log(err);
     }

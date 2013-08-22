@@ -27,7 +27,9 @@ var processData = function (data) {
 
   var brands = JSON.parse(data);
 
-  mongo.MongoClient.connect("mongodb://192.168.3.10:27017/tinyCMS", function (err, db) {
+  var mongoConnection = process.argv[3] || "mongodb://127.0.0.1/tinyCMS";
+
+  mongo.MongoClient.connect(mongoConnection, function (err, db) {
     if (!err) {
       console.log("We are connected");
     }
