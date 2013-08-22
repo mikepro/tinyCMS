@@ -6,8 +6,9 @@
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/tinycms.css" rel="stylesheet" media="screen">
 </head>
-<body>
+<body ng-app="tinyCMS">
 
+<!--Error header -->
 <div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -21,6 +22,8 @@
     </div>
 </div>
 
+
+<!-- Home button navigate to home -->
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container-fluid">
@@ -29,32 +32,35 @@
     </div>
 </div>
 
+<!-- Brand list -->
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span2">
 
             <div class="well well-small">
-            <ul class="nav nav-list">
-                <li class="nav-header">Brands</li>
-                <li >
-                    <i class="icon-wrench pull-right"></i>
-                <a href="#"></a>
-                </li>
-            </ul>
+		    <ul class="nav nav-list" ng-controller="navigationController">
+			<li class="nav-header">Brands</li>
+			<li ng-repeat="brand in brands">
+			    <i class="icon-wrench pull-right" ng-show="drafts"></i>
+			    <a href="#">{{brand.brandName}}</a>
+			</li>
+		    </ul>
             </div>
         </div>
         <div class="span10">
+        <!-- Display wellcome text if no brand selected -->
+	    <div class="hero-unit">
+		<img src="img/maiya.png" width="148" height="185" class="pull-left"/>
+		<br />
+		<h1>Welcome to tiny CMS</h1>
+		<h2>Simple brand content management system</h2>
+		<p>Make sure you make no mistakes or the pups in Meerkovo will be very disappointed.</p>
+	    </div>
 
-            <div class="hero-unit">
-                <img src="img/maiya.png" width="148" height="185" class="pull-left"/>
-                <br />
-                <h1>Welcome to tiny CMS</h1>
-                <h2>Simple brand content management system</h2>
-                <p>Make sure you make no mistakes or the pups in Meerkovo will be very disappointed.</p>
-            </div>
+	    <!--Get the selected brand and check that it is in display mode -->
+        <p class="pull-right">
 
-            <p class="pull-right">
-
+            <!--If the brand has draft changes display the published button -->
             <button
                     class="btn btn-success"
                     type="button"
@@ -62,24 +68,28 @@
                 <i class="icon-edit"></i> Publish
             </button>
 
+            <!-- Edit button for the brand data -->
             <button
                     class="btn btn-primary"
                     type="button"
                     title="Edits the brand data">
                 <i class="icon-edit"></i> Edit
             </button>
+        </p>
 
-            </p>
-
-            <ul class="nav nav-pills">
-                <li >
-                    <a href="#"></a>
-                </li>
-            </ul>
+	    <!-- Loop round each status that we have, published, draft show button and click functionality to show that particular version -->
+        <ul class="nav nav-pills">
+            <li >
+                <a href="#"></a>
+            </li>
+        </ul>
+	    <!-- Show the selected brand -->
+	    <!-- Show the edit brand -->
         </div>
     </div>
 </div>
 
+<!-- Display template -->
 <script type="text/html" id="showBrand">
     <h1><span>BrandName</span> (<span>code</span>)</h1>
 
@@ -89,10 +99,12 @@
     </dl>
 
     <h3>Important text</h3>
+    <!-- Loop over each important text -->
     <ul>
         <li>text</li>
     </ul>
 
+     <!-- Loop over benefits -->
     <h3>Benefits</h3>
     <ul>
         <li>text</li>
@@ -107,7 +119,7 @@
     <label class="checkbox">
         <input type="checkbox" disabled="disabled" /> Offline purchase supported
     </label>
-
+<!--if offlinePurchaseSupported -->
     <h4>Opening times</h4>
 
     <dl class="dl-horizontal">
@@ -154,6 +166,7 @@
     </dl>
 </script>
 
+<!--Edit template -->
 <script type="text/html" id="editBrand">
     <form>
         <fieldset>

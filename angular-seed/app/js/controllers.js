@@ -2,10 +2,15 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
-  controller('MyCtrl1', [function() {
+angular.module('tinyCMS.controllers', []).
+    controller('navigationController', ['$scope','$http',function($scope,$http) {
+        $http({method: 'GET', url: '/brands/list.json'})
+        .success(function(data, st, header,config){
+            $scope.brands = data;
+        })
 
-  }])
-  .controller('MyCtrl2', [function() {
-
-  }]);
+        .error(function(data){
+            $scope.message = "something went really wrong";
+        });
+    }]
+);

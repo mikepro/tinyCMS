@@ -1,4 +1,4 @@
-var TextItem = function(value) {
+/*var TextItem = function(value) {
   this.text = ko.observable(value);
 };
 
@@ -195,4 +195,4 @@ $.getJSON('/brands/list.json',function(data) {
   tinyCmsViewModel.allBrands(data);
 });
 
-ko.applyBindings(tinyCmsViewModel);
+ko.applyBindings(tinyCmsViewModel);*/
