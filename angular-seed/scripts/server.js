@@ -44,3 +44,4 @@ app.get('/brands/drafts.json', function (req, res) {
 
 app.use(express.static(__dirname + '/../app/'));
 app.listen(8022);
+console.log("Started on port 8022");

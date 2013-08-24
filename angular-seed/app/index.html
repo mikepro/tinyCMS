@@ -33,23 +33,23 @@
 </div>
 
 <!-- Brand list -->
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="selectedBrandController">
     <div class="row-fluid">
         <div class="span2">
 
-            <div class="well well-small">
-		    <ul class="nav nav-list" ng-controller="navigationController">
+            <div class="well well-small" ng-controller="navigationController" ng-show="showHomePageContent()" >
+		    <ul class="nav nav-list">
 			<li class="nav-header">Brands</li>
 			<li ng-repeat="brand in brands">
 			    <i class="icon-wrench pull-right" ng-show="drafts"></i>
-			    <a href="#">{{brand.brandName}}</a>
+                <a href="#" ng-click="selectBrand(brand)">{{brand.brandName}}</a>
 			</li>
 		    </ul>
             </div>
         </div>
         <div class="span10">
         <!-- Display wellcome text if no brand selected -->
-	    <div class="hero-unit">
+	    <div class="hero-unit" ng-show="showHomePageContent()">
 		<img src="img/logo.png" width="148" height="185" class="pull-left"/>
 		<br />
 		<h1>Welcome to tiny CMS</h1>
@@ -57,10 +57,11 @@
 	    </div>
 
 	    <!--Get the selected brand and check that it is in display mode -->
-        <p class="pull-right">
+        <p class="pull-right" ng-show="isDisplayMode">
 
             <!--If the brand has draft changes display the published button -->
             <button
+                    ng-show="selectedBrandData.drafts"
                     class="btn btn-success"
                     type="button"
                     title="All unpublished details are made public">
