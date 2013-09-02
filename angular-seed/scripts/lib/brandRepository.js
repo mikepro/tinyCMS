@@ -105,6 +105,7 @@ function BrandRepository() {
       newDraft.created = changeInfo;
     }
 
+    console.log(brandDocument.descriptor);
     var id = mongo.ObjectID(brandDocument.descriptor.id);
 
     //TODO: detect conflict (server version ahead)

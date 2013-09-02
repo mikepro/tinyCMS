@@ -6,7 +6,7 @@
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/tinycms.css" rel="stylesheet" media="screen">
 </head>
-<body ng-app="tinyCMS">
+<body ng-app="tinyCMS" ng-controller="selectedBrandController">
 
 <!--Error header -->
 <div id="alertModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -27,13 +27,13 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container-fluid">
-            <a class="brand" href="#" >Tiny brand CMS</a>
+            <a class="brand" href="#" ng-click="goToHomePageContent()" >Tiny brand CMS</a>
         </div>
     </div>
 </div>
 
 <!-- Brand list -->
-<div class="container-fluid" ng-controller="selectedBrandController">
+<div class="container-fluid" >
     <div class="row-fluid">
         <div class="span2">
 
@@ -41,7 +41,7 @@
 		    <ul class="nav nav-list">
 			<li class="nav-header">Brands</li>
 			<li ng-repeat="brand in brands">
-			    <i class="icon-wrench pull-right" ng-show="drafts"></i>
+			    <i class="icon-wrench pull-right" ng-show="brand.draft"></i>
                 <a href="#" ng-click="selectBrand(brand)">{{brand.brandName}}</a>
 			</li>
 		    </ul>
@@ -61,7 +61,7 @@
 
             <!--If the brand has draft changes display the published button -->
             <button
-                    ng-show="selectedBrandData.drafts"
+                    ng-show="selectedFullBrandData.drafts"
                     class="btn btn-success"
                     type="button"
                     title="All unpublished details are made public">
@@ -72,17 +72,27 @@
             <button
                     class="btn btn-primary"
                     type="button"
-                    title="Edits the brand data">
+                    title="Edits the brand data"
+                    ng-click="edit()">
                 <i class="icon-edit"></i> Edit
             </button>
         </p>
 
 	    <!-- Loop round each status that we have, published, draft show button and click functionality to show that particular version -->
         <ul class="nav nav-pills">
-            <li >
-                <a href="#"></a>
+            <li ng-class="{active: viewMode=='published'}" ng-show="selectedFullBrandData.published">
+            <a href="#" ng-click="viewPublishedContent()">Published</a>
+            </li>
+            <li ng-class="{active: viewMode=='draft'}" ng-show="selectedFullBrandData.draft">
+                <a href="#" ng-click="viewDraftContent()" >Draft</a>
             </li>
         </ul>
+        <div>
+            <ng-include ng-show="shouldEditSelectedBrand()" src="'editBrand.html'"/>
+        </div>
+        <div>
+            <ng-include ng-show="shouldDisplaySelectedBrand()" src="'showBrand.html'"/>
+        </div>
 	    <!-- Show the selected brand -->
 	    <!-- Show the edit brand -->
         </div>
@@ -90,101 +100,101 @@
 </div>
 
 <!-- Display template -->
-<script type="text/html" id="showBrand">
-    <h1><span>BrandName</span> (<span>code</span>)</h1>
-
+<script type="text/ng-template" id="showBrand.html">
+    <h1>BrandName ({{viewContent().brandName}})</h1>
     <dl>
         <dt>Strapline</dt>
-        <dd>Strap line</dd>
+        <dd>{{viewContent().strapLine}}</dd>
     </dl>
 
     <h3>Important text</h3>
     <!-- Loop over each important text -->
-    <ul>
-        <li>text</li>
+    <ul ng-repeat="importantText in viewContent().importantText">
+        <li>{{importantText.text}}</li>
     </ul>
 
-     <!-- Loop over benefits -->
     <h3>Benefits</h3>
-    <ul>
-        <li>text</li>
+     <ul ng-repeat="benefits in viewContent().Benefits">
+        <li>{{benefits.text}}</li>
     </ul>
 
     <h3>Presence</h3>
 
     <label class="checkbox">
-        <input type="checkbox" disabled="disabled" /> Online purchase supported
+        <input type="checkbox" disabled="disabled" ng-model="viewContent().onlinePurchaseSupported"/> Online purchase supported
     </label>
 
     <label class="checkbox">
-        <input type="checkbox" disabled="disabled" /> Offline purchase supported
+        <input type="checkbox" disabled="disabled" ng-model="viewContent().offlinePresence.OfflinePurchaseSupported"/> Offline purchase supported
     </label>
-<!--if offlinePurchaseSupported -->
-    <h4>Opening times</h4>
+    <div ng-show="viewContent().offlinePresence.OfflinePurchaseSupported">
+        <h4>Opening times</h4>
 
-    <dl class="dl-horizontal">
-        <dt>Monday</dt>
-        <dd>*</dd>
+        <dl class="dl-horizontal">
+            <dt>Monday</dt>
+            <dd>{{viewContent().offlinePresence.OpeningTimes.Monday}}</dd>
 
-        <dt>Tuesday</dt>
-        <dd>*</dd>
+            <dt>Tuesday</dt>
+            <dd>{{viewContent().offlinePresence.OpeningTimes.Tuesday}}</dd>
 
-        <dt>Wednesday</dt>
-        <dd>*</dd>
+            <dt>Wednesday</dt>
+            <dd>{{viewContent().offlinePresence.OpeningTimes.Wednesday}}</dd>
 
-        <dt>Thursday</dt>
-        <dd >*</dd>
+            <dt>Thursday</dt>
+            <dd >{{viewContent().offlinePresence.OpeningTimes.Thursday}}</dd>
 
-        <dt>Friday</dt>
-        <dd >*</dd>
+            <dt>Friday</dt>
+            <dd >{{viewContent().offlinePresence.OpeningTimes.Friday}}</dd>
 
-        <dt>Saturday</dt>
-        <dd >*</dd>
+            <dt>Saturday</dt>
+            <dd >{{viewContent().offlinePresence.OpeningTimes.Saturday}}</dd>
 
-        <dt>Sunday</dt>
-        <dd >*</dd>
+            <dt>Sunday</dt>
+            <dd >{{viewContent().offlinePresence.OpeningTimes.Sunday}}</dd>
 
-        <dt>Bank Holiday</dt>
-        <dd >*</dd>
-    </dl>
+            <dt>Bank Holiday</dt>
+            <dd >{{viewContent().offlinePresence.OpeningTimes.BankHoliday}}</dd>
+        </dl>
 
-    <dl>
-        <dt>Phone Number</dt>
-        <dd ></dd>
+        <dl>
+            <dt>Phone Number</dt>
+            <dd >{{viewContent().offlinePresence.PhoneNumber}}</dd>
 
-        <dt>Support Copy</dt>
-        <dd ></dd>
-    </dl>
+            <dt>Support Copy</dt>
+            <dd>{{viewContent().offlinePresence.SupportCopy}}</dd>
+        </dl>
 
-    <h3>Offer</h3>
-    <dl>
-        <dt>Text</dt>
-        <dd ></dd>
+        <h3>Offer</h3>
+        <dl>
+            <dt>Text</dt>
+            <dd >{{viewContent().offer.text}}</dd>
 
-        <dt>Terms</dt>
-        <dd ></dd>
-    </dl>
+            <dt>Terms</dt>
+            <dd >{{viewContent().offer.terms}}</dd>
+        </dl>
+    </div>
 </script>
 
 <!--Edit template -->
-<script type="text/html" id="editBrand">
+<script type="text/ng-template" id="editBrand.html">
     <form>
         <fieldset>
             <legend>Brand <span></span></legend>
 
             <label>Name</label>
-            <input type="text" />
-
+            <input type="text" ng-model="viewData.brandData.brandName" />
             <label>Strapline</label>
-            <input type="text" class="input-xxlarge" />
+            <input type="text" class="input-xxlarge" ng-model="viewData.brandData.strapLine" />
 
             <label>Important Text</label>
-            <textarea rows="3" class="span8" ></textarea>
-            <button type="button" class="btn btn-small" title="remove paragraph" >
-                <i class="icon-remove-circle"></i>
-            </button>
+            <div ng-repeat="importantText in viewData.brandData.importantText">
+                <textarea rows="3" class="span8" ng-model="importantText.text" ></textarea>
+                <button type="button" ng-click="removeImportantText($index)"  class="btn btn-small" title="remove paragraph" >
+                    <i class="icon-remove-circle"></i>
+                </button>
+            </div>
             <br />
-            <button class="btn btn-small" type="button" ><i class="icon-plus"></i> Add</button>
+            <button class="btn btn-small" type="button" ng-click="addImportantText()" ><i class="icon-plus"></i> Add</button>
         </fieldset>
 
         <br />
@@ -193,13 +203,13 @@
             <legend>Benefits</legend>
 
             <ul>
-                <li>
-                    <input type="text"  class="span8"/>
-                    <button class="btn btn-small" type="button" ><i class="icon-remove-circle"></i></button>
+                <li ng-repeat="benefits in viewData.brandData.Benefits">
+                    <input type="text"  class="span8" ng-model="benefits.text"/>
+                    <button class="btn btn-small" type="button" ng-click="removeBenefits($index)"><i class="icon-remove-circle"></i></button>
                 </li>
             </ul>
 
-            <button class="btn btn-small" type="button" ><i class="icon-plus"></i> Add</button>
+            <button class="btn btn-small" type="button" ng-click="addBenefits()"><i class="icon-plus" ></i> Add</button>
         </fieldset>
 
         <br />
@@ -208,13 +218,14 @@
             <legend>Presence</legend>
 
             <label class="checkbox">
-                <input type="checkbox"  /> Online purchase supported
+                <input type="checkbox" ng-model="viewData.brandData.onlinePurchaseSupported"  /> Online purchase supported
             </label>
 
             <label class="checkbox">
-                <input type="checkbox"  /> Offline purchase supported
+                <input type="checkbox" ng-model="viewData.brandData.offlinePresence.OfflinePurchaseSupported"  /> Offline purchase supported
             </label>
 
+    <div ng-show="viewData.brandData.offlinePresence.OfflinePurchaseSupported">
             Opening times:
 
             <div class="form-horizontal">
@@ -222,66 +233,67 @@
                 <div class="control-group">
                     <label class="control-label">Monday</label>
                     <div class="controls">
-                        <input type="text"  />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.Monday"  />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Tuesday</label>
                     <div class="controls">
-                        <input type="text"  />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.Tuesday" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Wednesday</label>
                     <div class="controls">
-                        <input type="text"  />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.Wednesday"/>
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Thursday</label>
                     <div class="controls">
-                        <input type="text" />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.Thursday" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Friday</label>
                     <div class="controls">
-                        <input type="text" />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.Friday" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Saturday</label>
                     <div class="controls">
-                        <input type="text" />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.Saturday" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Sunday</label>
                     <div class="controls">
-                        <input type="text" />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.Sunday" />
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">Bank Holiday</label>
                     <div class="controls">
-                        <input type="text" />
+                        <input type="text" ng-model="viewData.brandData.offlinePresence.OpeningTimes.BankHoliday" />
                     </div>
                 </div>
 
             </div>
 
             <label>Phone Number</label>
-            <input type="text"  />
+            <input type="text"  ng-model="viewData.brandData.offlinePresence.PhoneNumber" />
 
             <label>Support Copy</label>
-            <textarea rows=3 class="span8" ></textarea>
+            <textarea rows=3 class="span8" ng-model="viewData.brandData.offlinePresence.SupportCopy" ></textarea>
+        </div>
         </fieldset>
 
         <br />
@@ -290,18 +302,16 @@
 
             <label>Text</label>
 
-            <input type="text" class="input-xxlarge"  />
+            <input type="text" class="input-xxlarge"  ng-model="viewData.brandData.offer.text" />
 
             <label>Terms</label>
-            <textarea rows="3" class="span8" ></textarea>
-
+            <textarea rows="3" class="span8" ng-model="viewData.brandData.offer.terms" ></textarea>
         </fieldset>
-
+    </div>
         <div class="form-actions">
-            <button class="btn btn-primary" type="button" ><i class="icon-edit"></i> Save</button>
-            <button class="btn" type="button" ><i class="icon-edit"></i> Cancel</button>
+            <button class="btn btn-primary" type="button" ng-click="save()"><i class="icon-edit"></i> Save</button>
+            <button class="btn" type="button" ng-click="cancelEditing()" ><i class="icon-edit"></i> Cancel</button>
         </div>
-
     </form>
 </script>
 
