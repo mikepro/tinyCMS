@@ -69,12 +69,14 @@ angular.module('tinyCMS.controllers', []).
 
         $scope.viewContent = function()
         {
-            if($scope.viewMode =="published")
-            {
-                return $scope.selectedFullBrandData.published;
-            }else
-            {
-                return $scope.selectedFullBrandData.draft;
+            if($scope.selectedFullBrandData){
+                if($scope.viewMode =="published")
+                {
+                    return $scope.selectedFullBrandData.published;
+                }else
+                {
+                    return $scope.selectedFullBrandData.draft;
+                }
             }
         }
 

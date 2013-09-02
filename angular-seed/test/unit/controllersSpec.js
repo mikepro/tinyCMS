@@ -55,7 +55,7 @@ describe('controllers', function(){
             var controller = createController(controllerName);
             $rootScope.selectBrand({brandCode:'A'});
             $httpBackend.flush();
-            expect($rootScope.selectedBrandData.name).toBe('brandName');
+            expect($rootScope.selectedFullBrandData.name).toBe('brandName');
         });
 
         it('should set display mode when brand is selected',function(){
